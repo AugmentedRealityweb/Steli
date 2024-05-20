@@ -55,12 +55,13 @@
             flex-grow: 1;
         }
         #sendButton {
-            width: 60px;
+            width: 80px; /* Ajustăm lățimea */
             background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 0 0 10px 0;
             cursor: pointer;
+            font-size: 16px; /* Ajustăm dimensiunea fontului */
         }
         #minimizedChat {
             display: flex;
@@ -148,8 +149,9 @@
                 height: 30px;
             }
             #sendButton {
-                width: 50px;
+                width: 80px; /* Ajustăm lățimea */
                 border-radius: 0;
+                font-size: 14px; /* Ajustăm dimensiunea fontului */
             }
         }
     </style>
