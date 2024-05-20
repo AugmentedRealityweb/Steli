@@ -11,7 +11,7 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 350px;
+            width: 400px;
             max-width: 100%;
             display: none; /* Ascundem inițial */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
