@@ -60,15 +60,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             background-color: #4CAF50;
-            color: white;
             position: fixed;
             bottom: 20px;
             right: 20px;
             cursor: pointer;
+        }
+        #minimizedChat img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
         }
     </style>
 </head>
@@ -82,7 +86,9 @@
         <input type="text" id="inputBox" placeholder="Type your message here..." onkeydown="if(event.key === 'Enter') sendMessage()">
         <button onclick="sendMessage()">Send</button>
     </div>
-    <div id="minimizedChat" onclick="toggleChat()">+</div>
+    <div id="minimizedChat" onclick="toggleChat()">
+        <img src="ste.jpg" alt="StelminaBot">
+    </div>
 
     <script>
         const apiKey = 'sk-steli-8lZE7QiX4iF6CuaVWxpBT3BlbkFJOnNeJJmElOerEphakGzh'; // Cheia ta API
