@@ -25,6 +25,8 @@
             overflow-y: scroll;
             background-color: white;
             border-top: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
         }
         #inputBox {
             width: calc(100% - 50px);
@@ -80,20 +82,53 @@
         }
         .message {
             margin: 10px 0;
+            display: flex;
+            align-items: center;
         }
         .message p {
-            background-color: #f1f1f1;
             padding: 10px;
             border-radius: 10px;
             max-width: 80%;
         }
+        .message.user {
+            justify-content: flex-end;
+        }
         .message.user p {
             background-color: #dcf8c6;
-            align-self: flex-end;
+        }
+        .message.assistant {
+            justify-content: flex-start;
         }
         .message.assistant p {
             background-color: #f1f1f1;
-            align-self: flex-start;
+        }
+        .typing-indicator {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .typing-indicator .dot {
+            width: 8px;
+            height: 8px;
+            margin: 0 2px;
+            background-color: #ccc;
+            border-radius: 50%;
+            animation: blink 1.4s infinite both;
+        }
+        .typing-indicator .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-indicator .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes blink {
+            0%, 80%, 100% {
+                opacity: 0;
+            }
+            40% {
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -120,6 +155,7 @@
         const chatbox = document.getElementById('chatbox');
         const inputBox = document.getElementById('inputBox');
         const minimizedChat = document.getElementById('minimizedChat');
+        let typingIndicator;
 
         function toggleChat() {
             if (chatContainer.style.display === 'none') {
@@ -137,6 +173,9 @@
             inputBox.value = '';
             chatbox.innerHTML += `<div class="message user"><p>${message}</p></div>`;
 
+            // Adăugăm indicatorul de scriere
+            showTypingIndicator();
+
             const response = await fetch('https://api.openai.com/v1/chat/completions', {
                 method: 'POST',
                 headers: {
@@ -152,8 +191,26 @@
             const data = await response.json();
             const assistantMessage = data.choices[0].message.content;
 
+            // Eliminăm indicatorul de scriere
+            removeTypingIndicator();
+
             chatbox.innerHTML += `<div class="message assistant"><p>${assistantMessage}</p></div>`;
             chatbox.scrollTop = chatbox.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            typingIndicator = document.createElement('div');
+            typingIndicator.className = 'typing-indicator';
+            typingIndicator.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+            chatbox.appendChild(typingIndicator);
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            if (typingIndicator) {
+                typingIndicator.remove();
+                typingIndicator = null;
+            }
         }
     </script>
 </body>
