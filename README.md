@@ -23,6 +23,7 @@
         }
         #chatbox {
             flex-grow: 1;
+            height: 500px;
             padding: 10px;
             overflow-y: auto;
             background-color: white;
