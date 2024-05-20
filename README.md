@@ -17,19 +17,19 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
             overflow: hidden;
-        }
-        #chatbox {
-            width: 100%;
-            height: 400px;
-            padding: 10px;
-            overflow-y: scroll;
-            background-color: white;
-            border-top: 1px solid #ccc;
             display: flex;
             flex-direction: column;
+            max-height: 80vh; /* Ajustăm înălțimea maximă */
+        }
+        #chatbox {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: white;
+            border-top: 1px solid #ccc;
         }
         #inputBox {
-            width: calc(100% - 50px);
+            flex-grow: 1;
             border: none;
             padding: 10px;
             border-radius: 0 0 0 10px;
@@ -38,7 +38,6 @@
         #chatHeader {
             display: flex;
             align-items: center;
-            justify-content: space-between;
             background-color: #4CAF50;
             color: white;
             padding: 10px;
@@ -55,7 +54,7 @@
             flex-grow: 1;
         }
         #sendButton {
-            width: 50px;
+            width: 60px;
             background-color: #4CAF50;
             color: white;
             border: none;
@@ -137,7 +136,6 @@
         <div id="chatHeader" onclick="toggleChat()">
             <img src="ste.jpg" alt="StelminaBot">
             <span>StelminaBot</span>
-            <span onclick="toggleChat()" style="cursor:pointer;">&times;</span>
         </div>
         <div id="chatbox"></div>
         <div style="display: flex;">
