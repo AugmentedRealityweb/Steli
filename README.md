@@ -10,6 +10,7 @@
             right: 20px;
             width: 300px;
             max-width: 100%;
+            display: none; /* Ascundem inițial */
         }
         #chatbox {
             width: 100%;
@@ -17,7 +18,6 @@
             border: 1px solid #ccc;
             padding: 10px;
             overflow-y: scroll;
-            display: none;
             background-color: white;
             border-radius: 10px;
         }
@@ -39,22 +39,6 @@
             height: 30px;
             border-radius: 50%;
             margin-right: 10px;
-        }
-        #toggleButton {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 24px;
         }
         #minimizedChat {
             display: flex;
@@ -92,19 +76,17 @@
 
     <script>
         const apiKey = 'sk-steli-8lZE7QiX4iF6CuaVWxpBT3BlbkFJOnNeJJmElOerEphakGzh'; // Cheia ta API
+        const chatContainer = document.getElementById('chatContainer');
         const chatbox = document.getElementById('chatbox');
         const inputBox = document.getElementById('inputBox');
-        const chatContainer = document.getElementById('chatContainer');
         const minimizedChat = document.getElementById('minimizedChat');
 
         function toggleChat() {
-            if (chatbox.style.display === 'none') {
-                chatbox.style.display = 'block';
-                inputBox.style.display = 'block';
+            if (chatContainer.style.display === 'none') {
+                chatContainer.style.display = 'block';
                 minimizedChat.style.display = 'none';
             } else {
-                chatbox.style.display = 'none';
-                inputBox.style.display = 'none';
+                chatContainer.style.display = 'none';
                 minimizedChat.style.display = 'flex';
             }
         }
