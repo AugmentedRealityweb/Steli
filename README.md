@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -57,6 +56,20 @@
             cursor: pointer;
             font-size: 24px;
         }
+        #minimizedChat {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #4CAF50;
+            color: white;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -69,24 +82,24 @@
         <input type="text" id="inputBox" placeholder="Type your message here..." onkeydown="if(event.key === 'Enter') sendMessage()">
         <button onclick="sendMessage()">Send</button>
     </div>
-    <button id="toggleButton" onclick="toggleChat()">+</button>
+    <div id="minimizedChat" onclick="toggleChat()">+</div>
 
     <script>
-        const apiKey = 'sk-steli-8lZE7QiX4iF6CuaVWxpBT3BlbkFJOnNeJJmElOerEphakGzh'; // Înlocuiește cu cheia ta API
+        const apiKey = 'sk-steli-8lZE7QiX4iF6CuaVWxpBT3BlbkFJOnNeJJmElOerEphakGzh'; // Cheia ta API
         const chatbox = document.getElementById('chatbox');
         const inputBox = document.getElementById('inputBox');
         const chatContainer = document.getElementById('chatContainer');
-        const toggleButton = document.getElementById('toggleButton');
+        const minimizedChat = document.getElementById('minimizedChat');
 
         function toggleChat() {
             if (chatbox.style.display === 'none') {
                 chatbox.style.display = 'block';
                 inputBox.style.display = 'block';
-                toggleButton.style.display = 'none';
+                minimizedChat.style.display = 'none';
             } else {
                 chatbox.style.display = 'none';
                 inputBox.style.display = 'none';
-                toggleButton.style.display = 'block';
+                minimizedChat.style.display = 'flex';
             }
         }
 
