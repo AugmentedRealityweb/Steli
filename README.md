@@ -11,7 +11,7 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 400px;
+            width: 400px; /* Ajustează valoarea la lățimea dorită */
             max-width: 100%;
             display: none; /* Ascundem inițial */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -23,7 +23,7 @@
         }
         #chatbox {
             flex-grow: 1;
-            height: 500px;
+            height: 500px; /* Ajustează valoarea la înălțimea dorită */
             padding: 10px;
             overflow-y: auto;
             background-color: white;
@@ -128,6 +128,28 @@
             }
             40% {
                 opacity: 1;
+            }
+        }
+
+        /* Media queries pentru optimizarea pe dispozitive mobile */
+        @media (max-width: 600px) {
+            #chatContainer {
+                width: 100%;
+                bottom: 0;
+                right: 0;
+                border-radius: 0;
+                max-height: 100vh;
+            }
+            #chatHeader {
+                padding: 5px;
+            }
+            #chatHeader img {
+                width: 30px;
+                height: 30px;
+            }
+            #sendButton {
+                width: 50px;
+                border-radius: 0;
             }
         }
     </style>
