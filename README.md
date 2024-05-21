@@ -246,7 +246,9 @@
 
         // Deschidere automată a chatului după 2 secunde
         window.onload = function() {
-            setTimeout(openChatWithInitialMessage, 2000);
+            setTimeout(() => {
+                openChatWithInitialMessage();
+            }, 2000);
         };
     </script>
 </body>
