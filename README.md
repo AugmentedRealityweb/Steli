@@ -20,6 +20,7 @@
             display: flex;
             flex-direction: column;
             max-height: 80vh; /* Ajustăm înălțimea maximă */
+            background-color: white;
         }
         #chatbox {
             flex-grow: 1;
@@ -75,6 +76,7 @@
             bottom: 20px;
             right: 20px;
             cursor: pointer;
+            z-index: 1000; /* Ne asigurăm că este deasupra celorlalte elemente */
         }
         #minimizedChat img {
             width: 100%;
@@ -235,6 +237,17 @@
                 typingIndicator = null;
             }
         }
+
+        // Funcție pentru deschiderea automată a chatului cu un mesaj inițial
+        function openChatWithInitialMessage() {
+            toggleChat();
+            chatbox.innerHTML += `<div class="message assistant"><p>Bună, eu sunt mesageria AI Stelmina, cu ce informații vă pot ajuta?</p></div>`;
+        }
+
+        // Deschidere automată a chatului după 2 secunde
+        window.onload = function() {
+            setTimeout(openChatWithInitialMessage, 2000);
+        };
     </script>
 </body>
 </html>
