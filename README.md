@@ -234,7 +234,7 @@
                         'Authorization': `Bearer ${apiKey}`
                     },
                     body: JSON.stringify({
-                        model: "gpt-4",  // sau modelul pe care îl folosești
+                        model: "gpt-3.5-turbo-0125",  // sau modelul pe care îl folosești
                         messages: [
                             { role: "user", content: message }
                         ]
@@ -256,7 +256,7 @@
             } catch (error) {
                 console.error('Error sending message:', error);
                 removeTypingIndicator();
-                chatbox.innerHTML += `<div class="message assistant"><p>Error sending message. Please try again later.</p></div>`;
+                              chatbox.innerHTML += `<div class="message assistant"><p>Error sending message. Please try again later.</p></div>`;
             }
         }
 
@@ -275,7 +275,7 @@
             }
         }
 
-             // Function to open chat automatically with an initial message
+        // Function to open chat automatically with an initial message
         async function openChatWithInitialMessage() {
             toggleChat();
             if (!threadId) {
