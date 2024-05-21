@@ -176,6 +176,7 @@
     <script>
         const apiKey = 'sk-steli-8lZE7QiX4iF6CuaVWxpBT3BlbkFJOnNeJJmElOerEphakGzh'; // Your API Key
         const assistantId = 'asst_7qogC106HaAaB90kI5PiBkNN'; // Your Assistant ID
+        const vectorStoreId = 'vs_YFM8A0HwwId9fOVSZDaQiQId'; // Your Vector Store ID
         const chatContainer = document.getElementById('chatContainer');
         const chatbox = document.getElementById('chatbox');
         const inputBox = document.getElementById('inputBox');
@@ -192,6 +193,31 @@
             }
         }
 
+        async function searchInFile(query) {
+            try {
+                const response = await fetch(`https://api.openai.com/v1/assistants/${assistantId}/vector_stores/${vectorStoreId}/search`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({ query: query })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log(data);
+
+                return data.results;
+            } catch (error) {
+                console.error('Error searching in file:', error);
+                return [];
+            }
+        }
+
         async function sendMessage() {
             const message = inputBox.value;
             if (!message.trim()) return;
@@ -201,6 +227,10 @@
             showTypingIndicator();
 
             try {
+                // Căutare în fișier înainte de a trimite mesajul la asistent
+                const searchResults = await searchInFile(message);
+                const fileContent = searchResults.map(result => result.text).join('\n');
+
                 const response = await fetch(`https://api.openai.com/v1/assistants/${assistantId}/chat/completions`, {
                     method: 'POST',
                     headers: {
@@ -210,7 +240,8 @@
                     body: JSON.stringify({
                         model: "gpt-3.5-turbo-0125",  // sau modelul pe care îl folosești
                         messages: [
-                            { role: "user", content: message }
+                            { role: "user", content: message },
+                            { role: "system", content: fileContent }
                         ]
                     })
                 });
@@ -242,14 +273,14 @@
             chatbox.scrollTop = chatbox.scrollHeight;
         }
 
-        function removeTypingIndicator() {
+             function removeTypingIndicator() {
             if (typingIndicator) {
                 typingIndicator.remove();
                 typingIndicator = null;
             }
         }
 
-              // Function to open chat automatically with an initial message
+        // Function to open chat automatically with an initial message
         async function openChatWithInitialMessage() {
             toggleChat();
             chatbox.innerHTML += `<div class="message assistant"><p>Bună, eu sunt AI Stelmina, cu ce informații vă pot ajuta?</p></div>`;
