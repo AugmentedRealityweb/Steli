@@ -76,7 +76,6 @@
             bottom: 20px;
             right: 20px;
             cursor: pointer;
-            z-index: 1000; /* Ne asigurăm că este deasupra celorlalte elemente */
         }
         #minimizedChat img {
             width: 100%;
@@ -245,11 +244,14 @@
         }
 
         // Deschidere automată a chatului după 2 secunde
-        window.onload = function() {
-            setTimeout(() => {
-                openChatWithInitialMessage();
-            }, 2000);
-        };
+       window.onload = function() {
+    chatContainer.style.display = 'none';
+    minimizedChat.style.display = 'flex';
+    
+    setTimeout(() => {
+        openChatWithInitialMessage();
+    }, 2000);
+};
     </script>
 </body>
 </html>
