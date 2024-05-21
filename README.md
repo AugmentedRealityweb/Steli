@@ -175,6 +175,7 @@
 
     <script>
         const apiKey = 'sk-steli-8lZE7QiX4iF6CuaVWxpBT3BlbkFJOnNeJJmElOerEphakGzh'; // Cheia ta API
+        const assistantId = 'asst_7qogC106HaAaB90kI5PiBkNN'; // ID-ul asistentului tău
         const chatContainer = document.getElementById('chatContainer');
         const chatbox = document.getElementById('chatbox');
         const inputBox = document.getElementById('inputBox');
@@ -200,7 +201,7 @@
             // Adăugăm indicatorul de scriere
             showTypingIndicator();
 
-            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            const response = await fetch(`https://api.openai.com/v1/assistants/${assistantId}/messages`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -208,7 +209,9 @@
                 },
                 body: JSON.stringify({
                     model: "gpt-3.5-turbo",
-                    messages: [{role: "user", content: message}]
+                    messages: [
+                        { role: "user", content: message }
+                    ]
                 })
             });
 
@@ -244,14 +247,14 @@
         }
 
         // Deschidere automată a chatului după 2 secunde
-       window.onload = function() {
-    chatContainer.style.display = 'none';
-    minimizedChat.style.display = 'flex';
-    
-    setTimeout(() => {
-        openChatWithInitialMessage();
-    }, 2000);
-};
+        window.onload = function() {
+            chatContainer.style.display = 'none';
+            minimizedChat.style.display = 'flex';
+
+            setTimeout(() => {
+                openChatWithInitialMessage();
+            }, 2000);
+        };
     </script>
 </body>
 </html>
