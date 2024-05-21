@@ -195,7 +195,7 @@
 
         async function searchInFile(query) {
             try {
-                const response = await fetch(`https://api.openai.com/v1/assistants/${asst_7qogC1O6HaAaB9OkI5PiBkNN}/vector_stores/${vs_YFM8AOHwwId9f0VSZDaQiQId}/search`, {
+                const response = await fetch(`https://api.openai.com/v1/assistants/${assistantId}/vector_stores/${vectorStoreId}/search`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -231,7 +231,7 @@
                 const searchResults = await searchInFile(message);
                 const fileContent = searchResults.map(result => result.text).join('\n');
 
-                const response = await fetch(`https://api.openai.com/v1/assistants/${asst_7qogC1O6HaAaB9OkI5PiBkNN}/chat/completions`, {
+                const response = await fetch(`https://api.openai.com/v1/assistants/${assistantId}/chat/completions`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -273,10 +273,11 @@
             chatbox.scrollTop = chatbox.scrollHeight;
         }
 
-             function removeTypingIndicator() {
+        function removeTypingIndicator() {
             if (typingIndicator) {
                 typingIndicator.remove();
                 typingIndicator = null;
+           
             }
         }
 
