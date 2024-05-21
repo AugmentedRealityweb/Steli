@@ -213,37 +213,50 @@
             inputBox.value = '';
             chatbox.innerHTML += `<div class="message user"><p>${message}</p></div>`;
 
-            // Add typing indicator
             showTypingIndicator();
 
             if (!threadId) {
-                threadId = await createThread();
+                try {
+                    threadId = await createThread();
+                } catch (error) {
+                    console.error('Error creating thread:', error);
+                    removeTypingIndicator();
+                    chatbox.innerHTML += `<div class="message assistant"><p>Error creating thread. Please try again later.</p></div>`;
+                    return;
+                }
             }
 
-            const response = await fetch(`https://api.openai.com/v1/assistants/${assistantId}/threads/${threadId}/messages`, {
-                               method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
-                },
-                body: JSON.stringify({
-                    messages: [
-                        { role: "user", content: message }
-                    ]
-                })
-            });
+            try {
+                const response = await fetch(`https://api.openai.com/v1/assistants/${assistantId}/threads/${threadId}/messages`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        messages: [
+                            { role: "user", content: message }
+                        ]
+                    })
+                });
 
-            const data = await response.json();
-            console.log(data); // Log the response to inspect its structure
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
 
-            // Correct structure handling
-            const assistantMessage = data.messages ? data.messages[0].content : data.choices[0].message.content;
+                const data = await response.json();
+                console.log(data);
 
-            // Remove typing indicator
-            removeTypingIndicator();
+                const assistantMessage = data.messages ? data.messages[0].content : data.choices[0].message.content;
 
-            chatbox.innerHTML += `<div class="message assistant"><p>${assistantMessage}</p></div>`;
-            chatbox.scrollTop = chatbox.scrollHeight;
+                removeTypingIndicator();
+                chatbox.innerHTML += `<div class="message assistant"><p>${assistantMessage}</p></div>`;
+                chatbox.scrollTop = chatbox.scrollHeight;
+            } catch (error) {
+                console.error('Error sending message:', error);
+                removeTypingIndicator();
+                chatbox.innerHTML += `<div class="message assistant"><p>Error sending message. Please try again later.</p></div>`;
+            }
         }
 
         function showTypingIndicator() {
@@ -261,7 +274,7 @@
             }
         }
 
-        // Function to open chat automatically with an initial message
+               // Function to open chat automatically with an initial message
         async function openChatWithInitialMessage() {
             toggleChat();
             if (!threadId) {
