@@ -181,6 +181,7 @@
         const inputBox = document.getElementById('inputBox');
         const minimizedChat = document.getElementById('minimizedChat');
         let typingIndicator;
+        let threadId = null;
 
         function toggleChat() {
             if (chatContainer.style.display === 'none') {
@@ -192,6 +193,19 @@
             }
         }
 
+        async function createThread() {
+            const response = await fetch(`https://api.openai.com/v1/assistants/${assistantId}/threads`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({ title: "New Conversation" })
+            });
+            const data = await response.json();
+            return data.id;
+        }
+
         async function sendMessage() {
             const message = inputBox.value;
             if (!message.trim()) return;
@@ -201,14 +215,17 @@
             // Adăugăm indicatorul de scriere
             showTypingIndicator();
 
-            const response = await fetch(`https://api.openai.com/v1/assistants/${assistantId}/messages`, {
+            if (!threadId) {
+                threadId = await createThread();
+            }
+
+            const response = await fetch(`https://api.openai.com/v1/assistants/${assistantId}/threads/${threadId}/messages`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${apiKey}`
                 },
                 body: JSON.stringify({
-                    model: "gpt-3.5-turbo",
                     messages: [
                         { role: "user", content: message }
                     ]
@@ -225,7 +242,7 @@
             chatbox.scrollTop = chatbox.scrollHeight;
         }
 
-        function showTypingIndicator() {
+                function showTypingIndicator() {
             typingIndicator = document.createElement('div');
             typingIndicator.className = 'typing-indicator';
             typingIndicator.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
@@ -241,8 +258,11 @@
         }
 
         // Funcție pentru deschiderea automată a chatului cu un mesaj inițial
-        function openChatWithInitialMessage() {
+        async function openChatWithInitialMessage() {
             toggleChat();
+            if (!threadId) {
+                threadId = await createThread();
+            }
             chatbox.innerHTML += `<div class="message assistant"><p>Bună, eu sunt AI Stelmina, cu ce informații vă pot ajuta?</p></div>`;
         }
 
