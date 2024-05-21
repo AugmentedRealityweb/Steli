@@ -233,7 +233,7 @@
             });
 
             const data = await response.json();
-            const assistantMessage = data.choices[0].message.content;
+            const assistantMessage = data.messages[0].content; // Verifică structura răspunsului
 
             // Eliminăm indicatorul de scriere
             removeTypingIndicator();
@@ -242,7 +242,7 @@
             chatbox.scrollTop = chatbox.scrollHeight;
         }
 
-                function showTypingIndicator() {
+        function showTypingIndicator() {
             typingIndicator = document.createElement('div');
             typingIndicator.className = 'typing-indicator';
             typingIndicator.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
@@ -256,7 +256,6 @@
                 typingIndicator = null;
             }
         }
-
         // Funcție pentru deschiderea automată a chatului cu un mesaj inițial
         async function openChatWithInitialMessage() {
             toggleChat();
