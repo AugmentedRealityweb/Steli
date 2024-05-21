@@ -241,7 +241,7 @@
         // Funcție pentru deschiderea automată a chatului cu un mesaj inițial
         function openChatWithInitialMessage() {
             toggleChat();
-            chatbox.innerHTML += `<div class="message assistant"><p>Bună, eu sunt mesageria AI Stelmina, cu ce informații vă pot ajuta?</p></div>`;
+            chatbox.innerHTML += `<div class="message assistant"><p>Bună, eu sunt AI Stelmina, cu ce informații vă pot ajuta?</p></div>`;
         }
 
         // Deschidere automată a chatului după 2 secunde
