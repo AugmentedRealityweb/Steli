@@ -183,15 +183,56 @@
 
         // Împărțirea documentului în segmente
         const documentSegments = [
-            `Telefon: +0722235112...`,
-            `Experiența Unică a Masajului Facial Sculptural Bucal...`,
-            `Beneficii Unice ale Masajului Sculptural...`,
-            `Ce Spun Clientele...`,
-            `Servicii Pentru O Îngrijire Completă...`,
-            `Cele mai frecvente întrebări...`,
-            `Bine ai venit la salon StelMina...`,
-            `Începe Drumul Spre Transformare...`,
-            // Adaugă mai multe segmente după cum este necesar
+            `Nume: Stela
+'Telefon: +0722235112
+Email: smaftei55@gmail.com
+Adresă: Str. CAZARMII NR 3, Caransebes, Romania
+Orar:
+Marți - Vineri: 10:00 - 18:00
+Sâmbătă: 10:00 - 14:00
+Duminică și Luni: Închis'
+'Servicii Oferite
+Masaj Facial Sculptural Bucal
+Tehnică avansată de masaj facial concentrată pe zona buzelor, obrajilor și gurii'
+'Beneficii:
+Micșorează bărbia dublă, conturează fața și gâtul
+Crește elasticitatea pielii prin producția de colagen și elastină
+Reduce semnificativ ridurile și liniile fine
+Relaxează profund și detensionează întregul organism
+Tonifiază și întărește mușchii faciali
+Rezultate vizibile în cel mai scurt timp
+Tratament Facial Basic
+Curăță, hidratează și tonifică pielea
+Tratament Facial cu Ultrasunete
+Curăță în profunzime și îmbunătățește textura pielii
+Microdermabraziune
+Elimină celulele moarte, punctele negre, urmele de acnee și cicatricile superficiale
+Masaj Facial Personalizat
+Previne ridurile și elimină toxinele, diminuează cearcănele și pungile de sub ochi
+Masaj Bucal
+Stimulează producția de colagen, îmbunătățind fermitatea pielii din jurul gurii
+Make-up și Epilare
+Make-up de înaltă calitate și epilare a feței și corpului'
+'Beneficii Unice
+Elasticitate și colagen: Creștere semnificativă a elasticității pielii prin stimularea producției de colagen și elastină
+Relaxare profundă: Detensionează și relaxează întregul organism
+Tonifiere facială: Tonifiază și întărește mușchii faciali pentru un aspect mai ferm și mai tânăr
+Rezultate rapide: Transformări vizibile după doar o ședință'
+'Întrebări Frecvente
+Când pot vedea rezultatele?
+Mulți clienți observă îmbunătățiri imediate după o singură sesiune'
+'Cât durează o sesiune?
+Între 30 și 60 de minute, în funcție de nevoile specifice'
+'Există contraindicații?
+Contraindicat în cazuri de afecțiuni dermatologice severe, răni deschise, infecții faciale sau anumite condiții medicale'
+'Cât de des ar trebui să fac masaj?
+Recomandat o dată pe săptămână sau o dată la două săptămâni pentru rezultate optime pe termen lung'
+
+'Ton de Voce
+Cald, glumeț și profesionist
+Exemplar de Conversație
+Client: „Bună, Stela! Am auzit despre masajul tău facial sculptural bucal și sunt interesată. Îmi poți spune mai multe despre beneficii?”
+Stela: „Bună, draga mea! Desigur, masajul facial sculptural bucal este minunat pentru a reduce ridurile și a contura fața. Efectele sunt vizibile rapid și pielea ta va arăta mai tânără și mai strălucitoare. Te aștept să programezi o sesiune!'
         ];
 
         function getRelevantSegment(userMessage) {
