@@ -227,13 +227,14 @@
             }
 
             try {
-                const response = await fetch(`https://api.openai.com/v1/assistants/${assistantId}/threads/${threadId}/messages`, {
+                const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${apiKey}`
                     },
                     body: JSON.stringify({
+                        model: "gpt-4",  // sau modelul pe care îl folosești
                         messages: [
                             { role: "user", content: message }
                         ]
@@ -247,7 +248,7 @@
                 const data = await response.json();
                 console.log(data);
 
-                const assistantMessage = data.messages ? data.messages[0].content : data.choices[0].message.content;
+                const assistantMessage = data.choices[0].message.content;
 
                 removeTypingIndicator();
                 chatbox.innerHTML += `<div class="message assistant"><p>${assistantMessage}</p></div>`;
@@ -274,7 +275,7 @@
             }
         }
 
-               // Function to open chat automatically with an initial message
+             // Function to open chat automatically with an initial message
         async function openChatWithInitialMessage() {
             toggleChat();
             if (!threadId) {
