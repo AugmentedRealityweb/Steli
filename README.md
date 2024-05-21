@@ -1,4 +1,3 @@
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -181,10 +180,10 @@
         const minimizedChat = document.getElementById('minimizedChat');
         let typingIndicator;
 
-        // Împărțirea documentului în segmente
-        const documentSegments = [
-            `Nume: Stela
-'Telefon: +0722235112
+        // Textul documentului
+        const documentText = `esti o cosmeticianca pe nume Stela, vorbesti cu clientii in romana pe un ton cald, glumet si profesionist. Incearca sa dai raspunsuri scurte si concise.
+informatiile pe care sa le stii:   `Nume: Stela
+Telefon: +0722235112
 Email: smaftei55@gmail.com
 Adresă: Str. CAZARMII NR 3, Caransebes, Romania
 Orar:
@@ -233,16 +232,9 @@ Cald, glumeț și profesionist
 Exemplar de Conversație
 Client: „Bună, Stela! Am auzit despre masajul tău facial sculptural bucal și sunt interesată. Îmi poți spune mai multe despre beneficii?”
 Stela: „Bună, draga mea! Desigur, masajul facial sculptural bucal este minunat pentru a reduce ridurile și a contura fața. Efectele sunt vizibile rapid și pielea ta va arăta mai tânără și mai strălucitoare. Te aștept să programezi o sesiune!'
-        ];
 
-        function getRelevantSegment(userMessage) {
-            for (const segment of documentSegments) {
-                if (segment.toLowerCase().includes(userMessage.toLowerCase())) {
-                    return segment;
-                }
-            }
-            return "Nu am găsit informații relevante în baza de date.";
-        }
+
+`;
 
         function toggleChat() {
             if (chatContainer.style.display === 'none') {
@@ -260,9 +252,8 @@ Stela: „Bună, draga mea! Desigur, masajul facial sculptural bucal este minuna
             inputBox.value = '';
             chatbox.innerHTML += `<div class="message user"><p>${message}</p></div>`;
 
+            // Adăugăm indicatorul de scriere
             showTypingIndicator();
-
-            const relevantSegment = getRelevantSegment(message);
 
             const response = await fetch('https://api.openai.com/v1/chat/completions', {
                 method: 'POST',
@@ -275,7 +266,7 @@ Stela: „Bună, draga mea! Desigur, masajul facial sculptural bucal este minuna
                     messages: [
                         {
                             role: "system",
-                            content: `You are Stelmina, a friendly and helpful AI assistant for our company. You provide information and help customers as if you are an experienced employee of the company. The following is the knowledge base of the company: ${relevantSegment}`
+                            content: `You are Stelmina, a friendly and helpful AI assistant for our company. You provide information and help customers as if you are an experienced employee of the company. The following is the knowledge base of the company: ${documentText}`
                         },
                         { role: "user", content: message }
                     ]
@@ -285,6 +276,7 @@ Stela: „Bună, draga mea! Desigur, masajul facial sculptural bucal este minuna
             const data = await response.json();
             const assistantMessage = data.choices[0].message.content;
 
+            // Eliminăm indicatorul de scriere
             removeTypingIndicator();
 
             chatbox.innerHTML += `<div class="message assistant"><p>${assistantMessage}</p></div>`;
@@ -301,7 +293,6 @@ Stela: „Bună, draga mea! Desigur, masajul facial sculptural bucal este minuna
 
         function removeTypingIndicator() {
             if (typingIndicator) {
-                typingIndicator.remove();
                 typingIndicator.remove();
                 typingIndicator = null;
             }
