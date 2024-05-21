@@ -12,20 +12,20 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 400px; /* Adjust this value to your desired width */
+            width: 400px;
             max-width: 100%;
-            display: none; /* Initially hidden */
+            display: none;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            max-height: 80vh; /* Adjust this value to your desired height */
+            max-height: 80vh;
             background-color: white;
         }
         #chatbox {
             flex-grow: 1;
-            height: 500px; /* Adjust this value to your desired height */
+            height: 500px;
             padding: 10px;
             overflow-y: auto;
             background-color: white;
@@ -57,13 +57,13 @@
             flex-grow: 1;
         }
         #sendButton {
-            width: 80px; /* Adjust this value to your desired width */
+            width: 80px;
             background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 0 0 10px 0;
             cursor: pointer;
-            font-size: 16px; /* Adjust this value to your desired font size */
+            font-size: 16px;
         }
         #minimizedChat {
             display: flex;
@@ -134,7 +134,6 @@
             }
         }
 
-        /* Media queries for mobile optimization */
         @media (max-width: 600px) {
             #chatContainer {
                 width: 100%;
@@ -151,9 +150,9 @@
                 height: 30px;
             }
             #sendButton {
-                width: 80px; /* Adjust this value to your desired width */
+                width: 80px;
                 border-radius: 0;
-                font-size: 14px; /* Adjust this value to your desired font size */
+                font-size: 14px;
             }
         }
     </style>
@@ -182,7 +181,6 @@
         const inputBox = document.getElementById('inputBox');
         const minimizedChat = document.getElementById('minimizedChat');
         let typingIndicator;
-        let threadId = null;
 
         function toggleChat() {
             if (chatContainer.style.display === 'none') {
@@ -194,19 +192,6 @@
             }
         }
 
-        async function createThread() {
-            const response = await fetch(`https://api.openai.com/v1/assistants/${assistantId}/threads`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
-                },
-                body: JSON.stringify({ title: "New Conversation" })
-            });
-            const data = await response.json();
-            return data.id;
-        }
-
         async function sendMessage() {
             const message = inputBox.value;
             if (!message.trim()) return;
@@ -215,19 +200,8 @@
 
             showTypingIndicator();
 
-            if (!threadId) {
-                try {
-                    threadId = await createThread();
-                } catch (error) {
-                    console.error('Error creating thread:', error);
-                    removeTypingIndicator();
-                    chatbox.innerHTML += `<div class="message assistant"><p>Error creating thread. Please try again later.</p></div>`;
-                    return;
-                }
-            }
-
             try {
-                const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
+                const response = await fetch(`https://api.openai.com/v1/assistants/${assistantId}/chat/completions`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -256,7 +230,7 @@
             } catch (error) {
                 console.error('Error sending message:', error);
                 removeTypingIndicator();
-                              chatbox.innerHTML += `<div class="message assistant"><p>Error sending message. Please try again later.</p></div>`;
+                chatbox.innerHTML += `<div class="message assistant"><p>Error sending message. Please try again later.</p></div>`;
             }
         }
 
@@ -275,12 +249,9 @@
             }
         }
 
-        // Function to open chat automatically with an initial message
+              // Function to open chat automatically with an initial message
         async function openChatWithInitialMessage() {
             toggleChat();
-            if (!threadId) {
-                threadId = await createThread();
-            }
             chatbox.innerHTML += `<div class="message assistant"><p>Bună, eu sunt AI Stelmina, cu ce informații vă pot ajuta?</p></div>`;
         }
 
