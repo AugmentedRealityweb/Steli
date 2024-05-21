@@ -11,20 +11,20 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 400px; /* Ajustează valoarea la lățimea dorită */
+            width: 400px; /* Adjust this value to your desired width */
             max-width: 100%;
-            display: none; /* Ascundem inițial */
+            display: none; /* Initially hidden */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            max-height: 80vh; /* Ajustăm înălțimea maximă */
+            max-height: 80vh; /* Adjust this value to your desired height */
             background-color: white;
         }
         #chatbox {
             flex-grow: 1;
-            height: 500px; /* Ajustează valoarea la înălțimea dorită */
+            height: 500px; /* Adjust this value to your desired height */
             padding: 10px;
             overflow-y: auto;
             background-color: white;
@@ -56,13 +56,13 @@
             flex-grow: 1;
         }
         #sendButton {
-            width: 80px; /* Ajustăm lățimea */
+            width: 80px; /* Adjust this value to your desired width */
             background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 0 0 10px 0;
             cursor: pointer;
-            font-size: 16px; /* Ajustăm dimensiunea fontului */
+            font-size: 16px; /* Adjust this value to your desired font size */
         }
         #minimizedChat {
             display: flex;
@@ -133,7 +133,7 @@
             }
         }
 
-        /* Media queries pentru optimizarea pe dispozitive mobile */
+        /* Media queries for mobile optimization */
         @media (max-width: 600px) {
             #chatContainer {
                 width: 100%;
@@ -150,9 +150,9 @@
                 height: 30px;
             }
             #sendButton {
-                width: 80px; /* Ajustăm lățimea */
+                width: 80px; /* Adjust this value to your desired width */
                 border-radius: 0;
-                font-size: 14px; /* Ajustăm dimensiunea fontului */
+                font-size: 14px; /* Adjust this value to your desired font size */
             }
         }
     </style>
@@ -174,14 +174,25 @@
     </div>
 
     <script>
-        const apiKey = 'sk-steli-8lZE7QiX4iF6CuaVWxpBT3BlbkFJOnNeJJmElOerEphakGzh'; // Cheia ta API
+        const apiKey = 'sk-steli-8lZE7QiX4iF6CuaVWxpBT3BlbkFJOnNeJJmElOerEphakGzh'; // Your API Key
         const chatContainer = document.getElementById('chatContainer');
         const chatbox = document.getElementById('chatbox');
         const inputBox = document.getElementById('inputBox');
         const minimizedChat = document.getElementById('minimizedChat');
         let typingIndicator;
 
-        // Functie pentru incarcare document text
+        // Define the toggleChat function
+        function toggleChat() {
+            if (chatContainer.style.display === 'none') {
+                chatContainer.style.display = 'block';
+                minimizedChat.style.display = 'none';
+            } else {
+                chatContainer.style.display = 'none';
+                minimizedChat.style.display = 'flex';
+            }
+        }
+
+        // Function to load document text
         async function loadDocumentText() {
             const response = await fetch('https://raw.githubusercontent.com/AugmentedRealityweb/Steli/main/Steli.txt');
             const text = await response.text();
@@ -194,7 +205,7 @@
             inputBox.value = '';
             chatbox.innerHTML += `<div class="message user"><p>${message}</p></div>`;
 
-            // Adăugăm indicatorul de scriere
+            // Add typing indicator
             showTypingIndicator();
 
             const documentText = await loadDocumentText();
@@ -220,7 +231,7 @@
             const data = await response.json();
             const assistantMessage = data.choices[0].message.content;
 
-            // Eliminăm indicatorul de scriere
+            // Remove typing indicator
             removeTypingIndicator();
 
             chatbox.innerHTML += `<div class="message assistant"><p>${assistantMessage}</p></div>`;
@@ -242,13 +253,13 @@
             }
         }
 
-        // Funcție pentru deschiderea automată a chatului cu un mesaj inițial
+        // Function to open chat automatically with an initial message
         async function openChatWithInitialMessage() {
             toggleChat();
             chatbox.innerHTML += `<div class="message assistant"><p>Bună, eu sunt AI Stelmina, cu ce informații vă pot ajuta?</p></div>`;
         }
 
-        // Deschidere automată a chatului după 2 secunde
+        // Automatically open chat after 2 seconds
         window.onload = function() {
             chatContainer.style.display = 'none';
             minimizedChat.style.display = 'flex';
@@ -256,6 +267,6 @@
                 openChatWithInitialMessage();
             }, 2000);
         };
-    </script>
+      </script>
 </body>
 </html>
