@@ -174,7 +174,7 @@
     </div>
 
     <script>
-        const apiKey = 'sk-steli-8lZE7QiX4iF6CuaVWxpBT3BlbkFJOnNeJJmElOerEphakGzh'; // Your API Key
+        const apiKey = process.env.OPENAI_API_KEY; // Your API Key
         const chatContainer = document.getElementById('chatContainer');
         const chatbox = document.getElementById('chatbox');
         const inputBox = document.getElementById('inputBox');
