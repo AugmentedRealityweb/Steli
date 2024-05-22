@@ -181,7 +181,8 @@
         const minimizedChat = document.getElementById('minimizedChat');
         let typingIndicator;
 
-              function toggleChat() {
+        // Define the toggleChat function
+        function toggleChat() {
             if (chatContainer.style.display === 'none') {
                 chatContainer.style.display = 'block';
                 minimizedChat.style.display = 'none';
@@ -209,6 +210,8 @@
 
             const documentText = await loadDocumentText();
 
+            console.log("Sending message to API:", message);
+
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: {
@@ -227,6 +230,8 @@
             });
 
             const data = await response.json();
+            console.log("Response from API:", data);
+
             if (data.choices && data.choices.length > 0) {
                 const assistantMessage = data.choices[0].message.content;
 
