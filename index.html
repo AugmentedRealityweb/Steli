@@ -64,20 +64,20 @@
             cursor: pointer;
             font-size: 16px; /* Adjust this value to your desired font size */
         }
-    #minimizedChat {
+   #minimizedChat {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 60px; /* Ajustează dimensiunea după preferințe */
-    height: 60px; /* Ajustează dimensiunea după preferințe */
-    border-radius: 80%;
-    background-color: transparent; /* Asigură-te că fundalul este transparent */
+    width: 70px; /* Ajustează dimensiunea după preferințe */
+    height: 70px; /* Ajustează dimensiunea după preferințe */
+    border-radius: 50%;
+    background-color: transparent;
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 62px;
+    right: 62px;
     cursor: pointer;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Poți ajusta umbra după preferințe */
-    z-index: 1; /* Asigură-te că imaginea este deasupra inelului */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1;
 }
 
 #minimizedChat::before {
@@ -85,14 +85,14 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 58px; /* Dimensiunea inelului exterior */
-    height: 58px; /* Dimensiunea inelului exterior */
+    width: 80px; /* Dimensiunea inelului exterior */
+    height: 80px; /* Dimensiunea inelului exterior */
     border-radius: 50%;
-    border: 4px solid transparent; /* Grosimea inelului */
-    background: conic-gradient(from 0deg, #ffddd3, #0099ce); /* Gradientul conic */
+    border: 2px solid transparent;
+    background: conic-gradient(from 0deg, green, #0099ce);
     transform: translate(-50%, -50%);
-    animation: spin 7s linear infinite; /* Animația de rotație */
-    z-index: 0; /* Asigură-te că inelul este sub imagine */
+    animation: spin 2s linear infinite;
+    z-index: 0;
 }
 
 @keyframes spin {
@@ -105,11 +105,11 @@
 }
 
 #minimizedChat img {
-    width: 70px; /* Ajustează dimensiunea imaginii */
-    height: 70px; /* Ajustează dimensiunea imaginii */
+    width: 60px; /* Ajustează dimensiunea imaginii */
+    height: 60px; /* Ajustează dimensiunea imaginii */
     border-radius: 50%;
     object-fit: cover;
-    z-index: 2; /* Asigură-te că imaginea este deasupra inelului */
+    z-index: 2;
 }
         .message {
             margin: 10px 0;
