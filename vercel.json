@@ -6,10 +6,6 @@
       "use": "@vercel/static"
     },
     {
-      "src": "poza2.jpg",
-      "use": "@vercel/static"
-    },
-    {
       "src": "chat.js",
       "use": "@vercel/node"
     },
