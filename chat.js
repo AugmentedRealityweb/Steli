@@ -42,7 +42,7 @@ function showBookingForm() {
 // Funcția pentru trimiterea formularului prin email
 async function sendForm(formData) {
     let transporter = nodemailer.createTransport({
-        service: 'gmail',
+        service: 'yahoo',
         auth: {
             user: process.env.EMAIL_USER,
             pass: process.env.EMAIL_PASS
@@ -52,7 +52,7 @@ async function sendForm(formData) {
     let mailOptions = {
         from: process.env.EMAIL_USER,
         to: process.env.EMAIL_TO,
-        subject: 'Noua Rezervare',
+        subject: 'Cerere Rezervare',
         text: `Nume: ${formData.name}\nNumăr Telefon: ${formData.phone}\nEmail: ${formData.email}\nData Rezervării: ${formData.reservationDate}\nTipul Evenimentului: ${formData.eventType}`
     };
 
