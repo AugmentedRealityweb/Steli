@@ -6,11 +6,11 @@
       "use": "@vercel/static"
     },
     {
-      "src": "poza2.jpg",
-      "use": "@vercel/static"
+      "src": "chat.js",
+      "use": "@vercel/node"
     },
     {
-      "src": "chat.js",
+      "src": "send-email.js",
       "use": "@vercel/node"
     }
   ],
@@ -18,6 +18,10 @@
     {
       "src": "/api/chat",
       "dest": "/chat.js"
+    },
+    {
+      "src": "/api/send-email",
+      "dest": "/send-email.js"
     },
     {
       "src": "/(.*)",
