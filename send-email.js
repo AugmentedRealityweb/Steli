@@ -1,8 +1,7 @@
+// send-email.js
 const nodemailer = require('nodemailer');
 
-export default async function handler(req, res) {
-    const { name, phone, email, reservationDate, eventType } = req.body;
-
+async function sendForm(formData) {
     let transporter = nodemailer.createTransport({
         service: 'yahoo',
         auth: {
@@ -15,14 +14,10 @@ export default async function handler(req, res) {
         from: process.env.EMAIL_USER,
         to: process.env.EMAIL_TO,
         subject: 'Cerere Rezervare',
-        text: `Nume: ${name}\nNumăr Telefon: ${phone}\nEmail: ${email}\nData Rezervării: ${reservationDate}\nTipul Evenimentului: ${eventType}`
+        text: `Nume: ${formData.nume}\nNumăr Telefon: ${formData.numar_telefon}\nEmail: ${formData.email}\nData Rezervării: ${formData.data_rezervarii}\nTipul Evenimentului: ${formData.tip_eveniment}`
     };
 
-    try {
-        await transporter.sendMail(mailOptions);
-        res.status(200).json({ message: 'Email trimis cu succes' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Eroare la trimiterea emailului' });
-    }
+    await transporter.sendMail(mailOptions);
 }
+
+module.exports = { sendForm };
