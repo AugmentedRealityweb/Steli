@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
@@ -125,7 +124,7 @@
         .message.user p {
             background-color: #dcf8c6;
         }
-        .message.assistant {
+               .message.assistant {
             justify-content: flex-start;
         }
         .message.assistant p {
@@ -207,6 +206,7 @@
         const minimizedChat = document.getElementById('minimizedChat');
         let typingIndicator;
 
+        // Define the toggleChat function
         function toggleChat() {
             if (chatContainer.style.display === 'none') {
                 chatContainer.style.display = 'block';
@@ -217,6 +217,7 @@
             }
         }
 
+        // Function to load document text
         async function loadDocumentText() {
             const response = await fetch('https://raw.githubusercontent.com/AugmentedRealityweb/Steli/main/Steli.txt');
             const text = await response.text();
@@ -262,34 +263,48 @@
                 // Remove typing indicator
                 removeTypingIndicator();
 
-                chatbox.innerHTML += `<div class="message assistant"><p>${assistantMessage}</p></div>`;
-                chatbox.scrollTop = chatbox.scrollHeight;
-
-                // Check if the assistant's message contains a booking form
-                if (assistantMessage.includes('<form')) {
-                    document.querySelector('#bookingForm').addEventListener('submit', async function (event) {
-                        event.preventDefault();
-                        const formData = {
-                            name: document.getElementById('nume').value,
-                            phone: document.getElementById('numar_telefon').value,
-                            email: document.getElementById('email').value,
-                            reservationDate: document.getElementById('data_rezervarii').value,
-                            eventType: document.getElementById('tip_eveniment').value
-                        };
-                        await fetch('/api/send-email', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(formData)
-                        });
-                    });
+                if (assistantMessage.includes('<form id="bookingForm">')) {
+                    chatbox.innerHTML += `<div class="message assistant">${assistantMessage}</div>`;
+                    setupFormListener();
+                } else {
+                    chatbox.innerHTML += `<div class="message assistant"><p>${assistantMessage}</p></div>`;
                 }
-
+                chatbox.scrollTop = chatbox.scrollHeight;
             } else {
                 removeTypingIndicator();
                 chatbox.innerHTML += `<div class="message assistant"><p>There was an error processing your request. Please try again.</p></div>`;
             }
+        }
+
+        function setupFormListener() {
+            document.getElementById('bookingForm').addEventListener('submit', async function (event) {
+                event.preventDefault();
+                const formData = {
+                    name: document.getElementById('nume').value,
+                    phone: document.getElementById('numar_telefon').value,
+                    email: document.getElementById('email').value,
+                    reservationDate: document.getElementById('data_rezervarii').value,
+                    eventType: document.getElementById('tip_eveniment').value
+                };
+                await sendForm(formData);
+            });
+        }
+
+        async function sendForm(formData) {
+            const response = await fetch('/api/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                chatbox.innerHTML += `<div class="message assistant"><p>Formularul a fost trimis cu succes!</p></div>`;
+            } else {
+                chatbox.innerHTML += `<div class="message assistant"><p>Eroare la trimiterea formularului. Te rog să încerci din nou.</p></div>`;
+            }
+            chatbox.scrollTop = chatbox.scrollHeight;
         }
 
         function showTypingIndicator() {
@@ -307,11 +322,13 @@
             }
         }
 
+        // Function to open chat automatically with an initial message
         async function openChatWithInitialMessage() {
             toggleChat();
             chatbox.innerHTML += `<div class="message assistant"><p>Bună, eu sunt asistentul virtual Stelmina, cu ce informații te pot ajuta?</p></div>`;
         }
 
+        // Automatically open chat after 2 seconds
         window.onload = function() {
             chatContainer.style.display = 'none';
             minimizedChat.style.display = 'flex';
