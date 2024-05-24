@@ -204,7 +204,6 @@
         const minimizedChat = document.getElementById('minimizedChat');
         let typingIndicator;
 
-        // Define the toggleChat function
         function toggleChat() {
             if (chatContainer.style.display === 'none') {
                 chatContainer.style.display = 'block';
@@ -215,7 +214,6 @@
             }
         }
 
-        // Function to load document text
         async function loadDocumentText() {
             const response = await fetch('https://raw.githubusercontent.com/AugmentedRealityweb/Steli/main/Steli.txt');
             const text = await response.text();
@@ -228,7 +226,6 @@
             inputBox.value = '';
             chatbox.innerHTML += `<div class="message user"><p>${message}</p></div>`;
 
-            // Add typing indicator
             showTypingIndicator();
 
             const documentText = await loadDocumentText();
@@ -258,7 +255,6 @@
             if (data.choices && data.choices.length > 0) {
                 const assistantMessage = data.choices[0].message.content;
 
-                // Remove typing indicator
                 removeTypingIndicator();
 
                 chatbox.innerHTML += `<div class="message assistant"><p>${assistantMessage}</p></div>`;
@@ -284,13 +280,11 @@
             }
         }
 
-        // Function to open chat automatically with an initial message
         async function openChatWithInitialMessage() {
             toggleChat();
             chatbox.innerHTML += `<div class="message assistant"><p>Bună, eu sunt asistentul virtual Stelmina, cu ce informații te pot ajuta?</p></div>`;
         }
 
-        // Automatically open chat after 2 seconds
         window.onload = function() {
             chatContainer.style.display = 'none';
             minimizedChat.style.display = 'flex';
@@ -299,7 +293,6 @@
             }, 2000);
         };
 
-        // Add the event listener for the booking form submission
         document.addEventListener('DOMContentLoaded', function () {
             document.body.insertAdjacentHTML('beforeend', showBookingForm());
             document.getElementById('bookingForm').addEventListener('submit', async function (event) {
