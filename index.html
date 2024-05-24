@@ -11,20 +11,20 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 400px;
+            width: 400px; /* Adjust this value to your desired width */
             max-width: 100%;
-            display: none;
+            display: none; /* Initially hidden */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            max-height: 80vh;
+            max-height: 80vh; /* Adjust this value to your desired height */
             background-color: white;
         }
         #chatbox {
             flex-grow: 1;
-            height: 500px;
+            height: 500px; /* Adjust this value to your desired height */
             padding: 10px;
             overflow-y: auto;
             background-color: white;
@@ -56,20 +56,20 @@
             flex-grow: 1;
         }
         #sendButton {
-            width: 80px;
+            width: 80px; /* Adjust this value to your desired width */
             background-color: #ff8b7e;
             color: white;
             border: none;
             border-radius: 0 0 10px 0;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 16px; /* Adjust this value to your desired font size */
         }
         #minimizedChat {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 60px;
-            height: 60px;
+            width: 60px; /* Ajustează dimensiunea după preferințe */
+            height: 60px; /* Ajustează dimensiunea după preferințe */
             border-radius: 50%;
             background-color: transparent;
             position: fixed;
@@ -84,8 +84,8 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 62px;
-            height: 62px;
+            width: 62px; /* Dimensiunea inelului exterior */
+            height: 62px; /* Dimensiunea inelului exterior */
             border-radius: 50%;
             border: 2px solid transparent;
             background: conic-gradient(from 0deg, #ffddd3, #ff8b7e);
@@ -102,8 +102,8 @@
             }
         }
         #minimizedChat img {
-            width: 62px;
-            height: 62px;
+            width: 62px; /* Ajustează dimensiunea imaginii */
+            height: 62px; /* Ajustează dimensiunea imaginii */
             border-radius: 50%;
             object-fit: cover;
             z-index: 2;
@@ -158,6 +158,7 @@
                 opacity: 1;
             }
         }
+        /* Media queries for mobile optimization */
         @media (max-width: 600px) {
             #chatContainer {
                 width: 100%;
@@ -174,9 +175,9 @@
                 height: 30px;
             }
             #sendButton {
-                width: 80px;
+                width: 80px; /* Adjust this value to your desired width */
                 border-radius: 0;
-                font-size: 14px;
+                font-size: 14px; /* Adjust this value to your desired font size */
             }
         }
     </style>
@@ -225,12 +226,9 @@
             if (!message.trim()) return;
             inputBox.value = '';
             chatbox.innerHTML += `<div class="message user"><p>${message}</p></div>`;
-
             showTypingIndicator();
 
             const documentText = await loadDocumentText();
-
-            console.log("Sending message to API:", message);
 
             const response = await fetch('/api/chat', {
                 method: 'POST',
@@ -250,13 +248,10 @@
             });
 
             const data = await response.json();
-            console.log("Response from API:", data);
 
             if (data.choices && data.choices.length > 0) {
                 const assistantMessage = data.choices[0].message.content;
-
                 removeTypingIndicator();
-
                 chatbox.innerHTML += `<div class="message assistant"><p>${assistantMessage}</p></div>`;
                 chatbox.scrollTop = chatbox.scrollHeight;
             } else {
@@ -292,55 +287,6 @@
                 openChatWithInitialMessage();
             }, 2000);
         };
-
-        document.addEventListener('DOMContentLoaded', function () {
-            document.body.insertAdjacentHTML('beforeend', showBookingForm());
-            document.getElementById('bookingForm').addEventListener('submit', async function (event) {
-                event.preventDefault();
-                const formData = {
-                    name: document.getElementById('nume').value,
-                    phone: document.getElementById('numar_telefon').value,
-                    email: document.getElementById('email').value,
-                    reservationDate: document.getElementById('data_rezervarii').value,
-                    eventType: document.getElementById('tip_eveniment').value
-                };
-                await sendForm(formData);
-            });
-        });
-
-        function showBookingForm() {
-            return `
-                <form id="bookingForm">
-                    <label for="nume">Nume:</label><br>
-                    <input type="text" id="nume" name="nume"><br>
-                    <label for="numar_telefon">Număr Telefon:</label><br>
-                    <input type="text" id="numar_telefon" name="numar_telefon"><br>
-                    <label for="email">Email:</label><br>
-                    <input type="text" id="email" name="email"><br>
-                    <label for="data_rezervarii">Data Rezervării:</label><br>
-                    <input type="date" id="data_rezervarii" name="data_rezervarii"><br>
-                    <label for="tip_eveniment">Tipul Evenimentului:</label><br>
-                    <input type="text" id="tip_eveniment" name="tip_eveniment"><br><br>
-                    <input type="submit" value="Trimite">
-                </form>
-            `;
-        }
-
-        async function sendForm(formData) {
-            const response = await fetch('/api/send-email', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-
-            if (response.ok) {
-                alert('Formular trimis cu succes!');
-            } else {
-                alert('Eroare la trimiterea formularului.');
-            }
-        }
     </script>
 </body>
 </html>
