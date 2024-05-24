@@ -11,20 +11,20 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 400px; /* Adjust this value to your desired width */
+            width: 400px;
             max-width: 100%;
-            display: none; /* Initially hidden */
+            display: none;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            max-height: 80vh; /* Adjust this value to your desired height */
+            max-height: 80vh;
             background-color: white;
         }
         #chatbox {
             flex-grow: 1;
-            height: 500px; /* Adjust this value to your desired height */
+            height: 500px;
             padding: 10px;
             overflow-y: auto;
             background-color: white;
@@ -56,20 +56,20 @@
             flex-grow: 1;
         }
         #sendButton {
-            width: 80px; /* Adjust this value to your desired width */
+            width: 80px;
             background-color: #ff8b7e;
             color: white;
             border: none;
             border-radius: 0 0 10px 0;
             cursor: pointer;
-            font-size: 16px; /* Adjust this value to your desired font size */
+            font-size: 16px;
         }
         #minimizedChat {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 60px; /* Ajustează dimensiunea după preferințe */
-            height: 60px; /* Ajustează dimensiunea după preferințe */
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             background-color: transparent;
             position: fixed;
@@ -84,8 +84,8 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 62px; /* Dimensiunea inelului exterior */
-            height: 62px; /* Dimensiunea inelului exterior */
+            width: 62px;
+            height: 62px;
             border-radius: 50%;
             border: 2px solid transparent;
             background: conic-gradient(from 0deg, #ffddd3, #ff8b7e);
@@ -102,8 +102,8 @@
             }
         }
         #minimizedChat img {
-            width: 62px; /* Ajustează dimensiunea imaginii */
-            height: 62px; /* Ajustează dimensiunea imaginii */
+            width: 62px;
+            height: 62px;
             border-radius: 50%;
             object-fit: cover;
             z-index: 2;
@@ -158,8 +158,6 @@
                 opacity: 1;
             }
         }
-
-        /* Media queries for mobile optimization */
         @media (max-width: 600px) {
             #chatContainer {
                 width: 100%;
@@ -176,9 +174,9 @@
                 height: 30px;
             }
             #sendButton {
-                width: 80px; /* Adjust this value to your desired width */
+                width: 80px;
                 border-radius: 0;
-                font-size: 14px; /* Adjust this value to your desired font size */
+                font-size: 14px;
             }
         }
     </style>
@@ -206,6 +204,7 @@
         const minimizedChat = document.getElementById('minimizedChat');
         let typingIndicator;
 
+        // Define the toggleChat function
         function toggleChat() {
             if (chatContainer.style.display === 'none') {
                 chatContainer.style.display = 'block';
@@ -216,6 +215,7 @@
             }
         }
 
+        // Function to load document text
         async function loadDocumentText() {
             const response = await fetch('https://raw.githubusercontent.com/AugmentedRealityweb/Steli/main/Steli.txt');
             const text = await response.text();
@@ -228,6 +228,7 @@
             inputBox.value = '';
             chatbox.innerHTML += `<div class="message user"><p>${message}</p></div>`;
 
+            // Add typing indicator
             showTypingIndicator();
 
             const documentText = await loadDocumentText();
@@ -257,6 +258,7 @@
             if (data.choices && data.choices.length > 0) {
                 const assistantMessage = data.choices[0].message.content;
 
+                // Remove typing indicator
                 removeTypingIndicator();
 
                 chatbox.innerHTML += `<div class="message assistant"><p>${assistantMessage}</p></div>`;
@@ -282,11 +284,13 @@
             }
         }
 
+        // Function to open chat automatically with an initial message
         async function openChatWithInitialMessage() {
             toggleChat();
             chatbox.innerHTML += `<div class="message assistant"><p>Bună, eu sunt asistentul virtual Stelmina, cu ce informații te pot ajuta?</p></div>`;
         }
 
+        // Automatically open chat after 2 seconds
         window.onload = function() {
             chatContainer.style.display = 'none';
             minimizedChat.style.display = 'flex';
@@ -295,32 +299,39 @@
             }, 2000);
         };
 
+        // Add the event listener for the booking form submission
+        document.addEventListener('DOMContentLoaded', function () {
+            document.body.insertAdjacentHTML('beforeend', showBookingForm());
+            document.getElementById('bookingForm').addEventListener('submit', async function (event) {
+                event.preventDefault();
+                const formData = {
+                    name: document.getElementById('nume').value,
+                    phone: document.getElementById('numar_telefon').value,
+                    email: document.getElementById('email').value,
+                    reservationDate: document.getElementById('data_rezervarii').value,
+                    eventType: document.getElementById('tip_eveniment').value
+                };
+                await sendForm(formData);
+            });
+        });
+
         function showBookingForm() {
             return `
                 <form id="bookingForm">
-                    <label for="name">Nume:</label><br>
-                    <input type="text" id="name" name="name"><br>
-                    <label for="surname">Prenume:</label><br>
-                    <input type="text" id="surname" name="surname"><br>
-                    <label for="eventDate">Data Evenimentului:</label><br>
-                    <input type="date" id="eventDate" name="eventDate"><br>
-                    <label for="eventType">Tipul Evenimentului:</label><br>
-                    <input type="text" id="eventType" name="eventType"><br><br>
+                    <label for="nume">Nume:</label><br>
+                    <input type="text" id="nume" name="nume"><br>
+                    <label for="numar_telefon">Număr Telefon:</label><br>
+                    <input type="text" id="numar_telefon" name="numar_telefon"><br>
+                    <label for="email">Email:</label><br>
+                    <input type="text" id="email" name="email"><br>
+                    <label for="data_rezervarii">Data Rezervării:</label><br>
+                    <input type="date" id="data_rezervarii" name="data_rezervarii"><br>
+                    <label for="tip_eveniment">Tipul Evenimentului:</label><br>
+                    <input type="text" id="tip_eveniment" name="tip_eveniment"><br><br>
                     <input type="submit" value="Trimite">
                 </form>
             `;
         }
-
-        document.getElementById('bookingForm')?.addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const formData = {
-                name: document.getElementById('name').value,
-                surname: document.getElementById('surname').value,
-                eventDate: document.getElementById('eventDate').value,
-                eventType: document.getElementById('eventType').value
-            };
-            await sendForm(formData);
-        });
 
         async function sendForm(formData) {
             const response = await fetch('/api/send-email', {
@@ -330,10 +341,11 @@
                 },
                 body: JSON.stringify(formData)
             });
+
             if (response.ok) {
-                console.log('Formular trimis cu succes.');
+                alert('Formular trimis cu succes!');
             } else {
-                console.error('Eroare la trimiterea formularului.');
+                alert('Eroare la trimiterea formularului.');
             }
         }
     </script>
