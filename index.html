@@ -1,13 +1,12 @@
-<!DOCTYPE html>
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChatGPT Integration</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-        }
+        } 
         #chatContainer {
             position: fixed;
             bottom: 20px;
@@ -16,25 +15,20 @@
             max-width: 100%;
             display: none; /* Initially hidden */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 50%; /* Make it oval */
+            border-radius: 10px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             max-height: 80vh; /* Adjust this value to your desired height */
             background-color: white;
-            transition: border-radius 0.3s ease;
-        }
-        #chatContainer.open {
-            border-radius: 50px; /* Adjust the border-radius when opened */
         }
         #chatbox {
             flex-grow: 1;
             height: 500px; /* Adjust this value to your desired height */
             padding: 10px;
             overflow-y: auto;
-            background-color: #260050; /* Change background color */
+            background-color: white;
             border-top: 1px solid #ccc;
-            color: #4722a2; /* Change text color */
         }
         #inputBox {
             flex-grow: 1;
@@ -46,8 +40,8 @@
         #chatHeader {
             display: flex;
             align-items: center;
-            background-color: #975bf8;
-            color: black;
+            background-color: #ff8b7e;
+            color: white;
             padding: 10px;
             cursor: pointer;
         }
@@ -63,58 +57,60 @@
         }
         #sendButton {
             width: 80px; /* Adjust this value to your desired width */
-            background-color: #9700f8;
+            background-color: #ff8b7e;
             color: white;
             border: none;
-            border-radius: 0 0 20px 0;
+            border-radius: 0 0 10px 0;
             cursor: pointer;
             font-size: 16px; /* Adjust this value to your desired font size */
         }
-        #minimizedChat {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: transparent;
-            position: fixed;
-            bottom: 50%;
-            right: 50%;
-            transform: translate(50%, 50%);
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 1;
-        }
-        #minimizedChat::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 62px; /* Dimensiunea inelului exterior */
-            height: 62px; /* Dimensiunea inelului exterior */
-            border-radius: 50%;
-            border: 2px solid transparent;
-            background: conic-gradient(from 0deg, #00d79e, #00739e);
-            transform: translate(-50%, -50%);
-            animation: spin 9s linear infinite;
-            z-index: 0;
-        }
-        @keyframes spin {
-            0% {
-                transform: translate(-50%, -50%) rotate(0deg);
-            }
-            100% {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
-        }
-        #minimizedChat img {
-            width: 62px; /* Ajustează dimensiunea imaginii */
-            height: 62px; /* Ajustează dimensiunea imaginii */
-            border-radius: 50%;
-            object-fit: cover;
-            z-index: 2;
-        }
+   #minimizedChat {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px; /* Ajustează dimensiunea după preferințe */
+    height: 60px; /* Ajustează dimensiunea după preferințe */
+    border-radius: 50%;
+    background-color: transparent;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+ 
+#minimizedChat::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 62px; /* Dimensiunea inelului exterior */
+    height: 62px; /* Dimensiunea inelului exterior */
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background: conic-gradient(from 0deg, #ffddd3, #ff8b7e);
+    transform: translate(-50%, -50%);
+    animation: spin 9s linear infinite;
+    z-index: 0;
+}
+
+@keyframes spin {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+#minimizedChat img {
+    width: 62px; /* Ajustează dimensiunea imaginii */
+    height: 62px; /* Ajustează dimensiunea imaginii */
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 2;
+}
         .message {
             margin: 10px 0;
             display: flex;
@@ -124,13 +120,12 @@
             padding: 10px;
             border-radius: 10px;
             max-width: 80%;
-            color: #4722a2; /* Change text color */
         }
         .message.user {
             justify-content: flex-end;
         }
         .message.user p {
-            background-color: #ffffff;
+            background-color: #dcf8c6;
         }
         .message.assistant {
             justify-content: flex-start;
@@ -166,6 +161,7 @@
                 opacity: 1;
             }
         }
+
         /* Media queries for mobile optimization */
         @media (max-width: 600px) {
             #chatContainer {
@@ -174,9 +170,6 @@
                 right: 0;
                 border-radius: 0;
                 max-height: 100vh;
-            }
-            #chatContainer.open {
-                border-radius: 0;
             }
             #chatHeader {
                 padding: 5px;
@@ -194,10 +187,10 @@
     </style>
 </head>
 <body>
-    <div id="chatContainer" class="open">
+    <div id="chatContainer">
         <div id="chatHeader" onclick="toggleChat()">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXbrNcJwOokdo1BuFs9YhvAHTcm3u7d-h5MQ&s.jpg" alt="Astrologul">
-            <span>Astrologul</span>
+            <img src="https://www.stelmina.ro/static/media/stela.5942e385822c1393e15a.webp" alt="StelminaBot">
+            <span>StelminaBot</span>
         </div>
         <div id="chatbox"></div>
         <div style="display: flex;">
@@ -206,7 +199,7 @@
         </div>
     </div>
     <div id="minimizedChat" onclick="toggleChat()">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXbrNcJwOokdo1BuFs9YhvAHTcm3u7d-h5MQ&s.jpg" alt="Astrologul">
+        <img src="https://www.stelmina.ro/static/media/stela.5942e385822c1393e15a.webp" alt="StelminaBot">
     </div>
 
     <script>
@@ -220,75 +213,32 @@
         function toggleChat() {
             if (chatContainer.style.display === 'none') {
                 chatContainer.style.display = 'block';
-                chatContainer.classList.add('open');
                 minimizedChat.style.display = 'none';
             } else {
                 chatContainer.style.display = 'none';
-                chatContainer.classList.remove('open');
                 minimizedChat.style.display = 'flex';
             }
         }
 
         // Function to load document text
         async function loadDocumentText() {
-            const response = await fetch('https://raw.githubusercontent.com/AugmentedRealityweb/EvoDent/main/Steli.txt');
+            const response = await fetch('https://raw.githubusercontent.com/AugmentedRealityweb/Steli/main/Steli.txt');
             const text = await response.text();
             return text;
         }
 
-        // Function to fetch current date and time
-        async function fetchCurrentDateTime() {
-            try {
-                const response = await fetch('http://worldtimeapi.org/api/timezone/Europe/Bucharest');
-                const data = await response.json();
-                return data.datetime; // Returnează timpul curent în format ISO
-            } catch (error) {
-                console.error("Error fetching current date and time:", error);
-                return null;
-            }
-        }
+        async function sendMessage() {
+            const message = inputBox.value;
+            if (!message.trim()) return;
+            inputBox.value = '';
+            chatbox.innerHTML += <div class="message user"><p>${message}</p></div>;
 
-        function formatResponse(response) {
-            return response.replace(/(?:\.\s*)/g, '.<br><br>');
-        }
+            // Add typing indicator
+            showTypingIndicator();
 
-        function showTypingIndicator() {
-            typingIndicator = document.createElement('div');
-            typingIndicator.className = 'typing-indicator';
-        typingIndicator.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
-        chatbox.appendChild(typingIndicator);
-        chatbox.scrollTop = chatbox.scrollHeight;
-    }
-
-    function removeTypingIndicator() {
-        if (typingIndicator) {
-            typingIndicator.remove();
-            typingIndicator = null;
-        }
-    }
-
-    let conversationHistory = [];
-
-    async function sendMessage() {
-        const message = inputBox.value;
-        if (!message.trim()) return;
-        inputBox.value = '';
-        chatbox.innerHTML += `<div class="message user"><p>${message}</p></div>`;
-
-        // Adaugă mesajul utilizatorului în istoricul conversației
-        conversationHistory.push({ role: "user", content: message });
-
-        // Adaugă indicatorul de tastare
-        showTypingIndicator();
-
-        try {
             const documentText = await loadDocumentText();
-            const currentDateTime = await fetchCurrentDateTime();
-            const formattedDate = currentDateTime ? new Date(currentDateTime).toLocaleDateString('ro-RO') : 'unavailable';
-            const systemMessage = `
-                You are AstroBot, a friendly and knowledgeable AI assistant specialized in astrology.
-                Today is ${formattedDate}. The following is the detailed knowledge base you will use to answer questions and provide insights: ${documentText}
-            `;
+
+            console.log("Sending message to API:", message);
 
             const response = await fetch('/api/chat', {
                 method: 'POST',
@@ -300,67 +250,59 @@
                     messages: [
                         {
                             role: "system",
-                            content: systemMessage
+                            content: You are Stelmina, a friendly and helpful AI assistant for our company. You provide information and help customers as if you are an experienced employee of the company. The following is the knowledge base of the company: ${documentText}
                         },
-                        ...conversationHistory
+                        { role: "user", content: message }
                     ]
                 })
             });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
 
             const data = await response.json();
             console.log("Response from API:", data);
 
             if (data.choices && data.choices.length > 0) {
-                let assistantMessage = data.choices[0].message.content;
-                assistantMessage = formatResponse(assistantMessage);
+                const assistantMessage = data.choices[0].message.content;
 
-                // Adaugă răspunsul asistentului în istoricul conversației
-                conversationHistory.push({ role: "assistant", content: assistantMessage });
-
-                // Scoate indicatorul de tastare
+                // Remove typing indicator
                 removeTypingIndicator();
 
-                chatbox.innerHTML += `<div class="message assistant"><p>${assistantMessage}</p></div>`;
+                chatbox.innerHTML += <div class="message assistant"><p>${assistantMessage}</p></div>;
                 chatbox.scrollTop = chatbox.scrollHeight;
             } else {
-                throw new Error("Invalid response format");
+                removeTypingIndicator();
+                chatbox.innerHTML += <div class="message assistant"><p>There was an error processing your request. Please try again.</p></div>;
             }
-        } catch (error) {
-            console.error("Error during API request:", error);
-            removeTypingIndicator();
-            chatbox.innerHTML += `<div class="message assistant"><p>There was an error processing your request. Please try again.</p></div>`;
+        }
+
+        function showTypingIndicator() {
+            typingIndicator = document.createElement('div');
+            typingIndicator.className = 'typing-indicator';
+            typingIndicator.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+            chatbox.appendChild(typingIndicator);
             chatbox.scrollTop = chatbox.scrollHeight;
         }
-    }
 
-    async function openChatWithInitialMessage() {
-        toggleChat();
-        chatbox.innerHTML += `
-            <div class="message assistant">
-                <p>
-                    Bună, pentru a începe sesiunea, spune-mi despre ce subiect ai vrea să vorbim:<br>
-                    1. Harta natală<br>
-                    2. Tranzite și Predicții<br>
-                    3. Compatibilitate<br>
-                    4. Aspecte personale<br>
-                    5. Astrologie zilnică și săptămânală<br>
-                    6. Întrebări generale despre astrologie
-                </p>
-            </div>`;
-    }
+        function removeTypingIndicator() {
+            if (typingIndicator) {
+                typingIndicator.remove();
+                typingIndicator = null;
+            }
+        }
 
-    // Automatically open chat after 2 seconds
-    window.onload = function() {
-        chatContainer.style.display = 'none';
-        minimizedChat.style.display = 'flex';
-        setTimeout(() => {
-            openChatWithInitialMessage();
-        }, 2200);
-    };
+        // Function to open chat automatically with an initial message
+        async function openChatWithInitialMessage() {
+            toggleChat();
+            chatbox.innerHTML += <div class="message assistant"><p>Bună, eu sunt AI Stelmina, cu ce informații vă pot ajuta?</p></div>;
+        }
+
+        // Automatically open chat after 2 seconds
+        window.onload = function() {
+            chatContainer.style.display = 'none';
+            minimizedChat.style.display = 'flex';
+            setTimeout(() => {
+                          openChatWithInitialMessage();
+            }, 2000);
+        };
     </script>
 </body>
 </html>
