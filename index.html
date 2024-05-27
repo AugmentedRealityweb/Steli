@@ -209,7 +209,6 @@
         const minimizedChat = document.getElementById('minimizedChat');
         let typingIndicator;
 
-        // Define the toggleChat function
         function toggleChat() {
             if (chatContainer.style.display === 'none') {
                 chatContainer.style.display = 'block';
@@ -220,7 +219,6 @@
             }
         }
 
-        // Function to load document text
         async function loadDocumentText() {
             const response = await fetch('https://raw.githubusercontent.com/AugmentedRealityweb/Steli/main/Steli.txt');
             const text = await response.text();
@@ -231,14 +229,11 @@
             const message = inputBox.value;
             if (!message.trim()) return;
             inputBox.value = '';
-            chatbox.innerHTML += <div class="message user"><p>${message}</p></div>;
+            chatbox.innerHTML += `<div class="message user"><p>${message}</p></div>`;
 
-            // Add typing indicator
             showTypingIndicator();
 
             const documentText = await loadDocumentText();
-
-            console.log("Sending message to API:", message);
 
             const response = await fetch('/api/chat', {
                 method: 'POST',
@@ -250,7 +245,7 @@
                     messages: [
                         {
                             role: "system",
-                            content: You are Stelmina, a friendly and helpful AI assistant for our company. You provide information and help customers as if you are an experienced employee of the company. The following is the knowledge base of the company: ${documentText}
+                            content: `You are Stelmina, a friendly and helpful AI assistant for our company. You provide information and help customers as if you are an experienced employee of the company. The following is the knowledge base of the company: ${documentText}`
                         },
                         { role: "user", content: message }
                     ]
@@ -258,19 +253,17 @@
             });
 
             const data = await response.json();
-            console.log("Response from API:", data);
 
             if (data.choices && data.choices.length > 0) {
                 const assistantMessage = data.choices[0].message.content;
 
-                // Remove typing indicator
                 removeTypingIndicator();
 
-                chatbox.innerHTML += <div class="message assistant"><p>${assistantMessage}</p></div>;
+                chatbox.innerHTML += `<div class="message assistant"><p>${assistantMessage}</p></div>`;
                 chatbox.scrollTop = chatbox.scrollHeight;
             } else {
                 removeTypingIndicator();
-                chatbox.innerHTML += <div class="message assistant"><p>There was an error processing your request. Please try again.</p></div>;
+                chatbox.innerHTML += `<div class="message assistant"><p>There was an error processing your request. Please try again.</p></div>`;
             }
         }
 
@@ -289,18 +282,16 @@
             }
         }
 
-        // Function to open chat automatically with an initial message
         async function openChatWithInitialMessage() {
             toggleChat();
-            chatbox.innerHTML += <div class="message assistant"><p>Bună, eu sunt AI Stelmina, cu ce informații vă pot ajuta?</p></div>;
+            chatbox.innerHTML += `<div class="message assistant"><p>Bună, eu sunt AI Stelmina, cu ce informații vă pot ajuta?</p></div>`;
         }
 
-        // Automatically open chat after 2 seconds
         window.onload = function() {
             chatContainer.style.display = 'none';
             minimizedChat.style.display = 'flex';
             setTimeout(() => {
-                          openChatWithInitialMessage();
+                openChatWithInitialMessage();
             }, 2000);
         };
     </script>
